@@ -103,6 +103,61 @@
         </form>
       </div>
     </section>
+
+  <!-- Script untuk kirim ke localStorage & Google Sheets -->
+  <script>
+    document.getElementById("aspirationForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value.trim();
+      const nim = document.getElementById("nim").value.trim();
+      const topic = document.getElementById("topic").value;
+      const aspirationText = document.getElementById("aspirationText").value.trim();
+      const timestamp = new Date().toISOString();
+
+      const attachmentInput = document.getElementById("attachment");
+      const attachment = attachmentInput.files.length > 0 ? attachmentInput.files[0].name : "";
+
+      const aspiration = {
+        name,
+        nim,
+        topic,
+        aspiration: aspirationText,
+        attachment,
+        timestamp
+      };
+
+      const existing = JSON.parse(localStorage.getItem("aspirations")) || [];
+      existing.push(aspiration);
+      localStorage.setItem("aspirations", JSON.stringify(existing));
+
+      fetch("https://script.google.com/macros/s/AKfycbzla9ovv_IfTQeyYjDgwp-cq5Jn9j3DzabG7AnOCZp_VJX-uHzpmRV5cRiI4c_0HmrD/exec", {
+        method: "POST",
+        body: JSON.stringify(aspiration),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then(response => {
+        if (!response.ok) throw new Error("Jaringan gagal");
+        return response.text();
+      })
+      .then(result => {
+        if (result === "Success") {
+          alert("Aspirasi berhasil dikirim!");
+        } else {
+          alert("Gagal mengirim aspirasi ke Google Sheets:\n" + result);
+        }
+      })
+      .catch(error => {
+        console.error("Gagal kirim ke Apps Script:", error);
+        alert("Aspirasi disimpan lokal, tapi gagal dikirim online.");
+      });
+
+      this.reset();
+    });
+  </script>
+
     <!-- ===== Visi dan Misi Section ===== -->
     <section id=vision-mission class="py-20" style="background-color:#D8F3DC">
       <div
