@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="id">
   <head>
@@ -46,3 +47,53 @@
     <script src="script.js"></script>
   </body>
 </html>
+=======
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard Admin - BPM FKIP UNEJ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="bg-white">
+    <!-- ===== Dashboard Admin Section ===== -->
+    <section id="adminPage" class="py-20 px-6 bg-white min-h-screen">
+      <div class="max-w-5xl mx-auto">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-3xl font-bold text-gray-800">Dashboard Admin</h2>
+          <button
+            onclick="logout()"
+            class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+          >
+            Logout
+          </button>
+        </div>
+
+        <!-- Filter -->
+        <div class="flex flex-wrap gap-4 items-center mb-6">
+          <input
+            type="month"
+            id="filterMonth"
+            class="border px-3 py-2 rounded"
+          />
+          <button
+            onclick="filterAspirations()"
+            class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          >
+            Filter
+          </button>
+          <button onclick="resetFilter()" class="text-blue-600 hover:underline">
+            Reset
+          </button>
+        </div>
+
+        <div id="aspirationList" class="space-y-4"></div>
+      </div>
+    </section>
+
+    <script src="script.js"></script>
+  </body>
+</html>
+>>>>>>> e457956d3c03cae9eda2af4cb23d8f1cc5e2734c
