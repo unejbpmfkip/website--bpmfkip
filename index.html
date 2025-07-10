@@ -61,48 +61,52 @@
       </div>
     </div>
 
-    <!-- SAMARASI Form -->
-    <section id="aspiration" class="py-20 bg-white">
-      <div class="container mx-auto px-6">
-        <h2 class="text-3xl font-bold text-center text-[#1B4332] mb-16">
-          SAMARASI FKIP (Suara Mahasiswa & Serap Aspirasi FKIP)
-        </h2>
-        <form id="aspirationForm" class="space-y-6">
-          <div>
-            <label for="name" class="block text-sm font-medium text-[#081C15]">Nama Lengkap</label>
-            <input type="text" id="name" class="w-full px-4 py-2 border rounded-md" required />
-          </div>
-          <div>
-            <label for="nim" class="block text-sm font-medium text-[#081C15]">NIM</label>
-            <input type="text" id="nim" class="w-full px-4 py-2 border rounded-md" required />
-          </div>
-          <div>
-            <label for="topic" class="block text-sm font-medium text-[#081C15]">Topik</label>
-            <select id="topic" class="w-full px-4 py-2 border rounded-md" required>
-              <option value="">Pilih Topik</option>
-              <option value="akademik">Akademik</option>
-              <option value="fasilitas">Fasilitas</option>
-              <option value="kebijakan">Kebijakan Fakultas</option>
-              <option value="administrasi">Administrasi</option>
-              <option value="saran">Saran</option>
-              <option value="staff">Staff</option>
-              <option value="other">Lainnya</option>
-            </select>
-          </div>
-          <div>
-            <label for="aspirationText" class="block text-sm font-medium text-[#081C15]">Aspirasi</label>
-            <textarea id="aspirationText" rows="4" class="w-full px-4 py-2 border rounded-md" required></textarea>
-          </div>
-          <div>
-            <label for="attachment" class="block text-sm font-medium text-[#081C15]">Lampiran Bukti (opsional)</label>
-            <input type="file" id="attachment" class="w-full px-4 py-2 border rounded-md" />
-          </div>
-          <button type="submit" class="bg-[#52B788] hover:bg-[#40916C] text-white font-bold py-3 px-6 rounded transition">
-            Kirim Aspirasi
-          </button>
-        </form>
+ <!-- SAMARASI Form -->
+<section id="aspiration" class="py-20 bg-white">
+  <div class="container mx-auto px-6">
+    <h2 class="text-3xl font-bold text-center text-[#1B4332] mb-16">
+      SAMARASI FKIP (Suara Mahasiswa & Serap Aspirasi FKIP)
+    </h2>
+    <form id="aspirationForm" class="space-y-6">
+      <div>
+        <label for="name" class="block text-sm font-medium text-[#081C15]">Nama Lengkap</label>
+        <input type="text" id="name" class="w-full px-4 py-2 border rounded-md" required />
       </div>
-    </section>
+      <div>
+        <label for="nim" class="block text-sm font-medium text-[#081C15]">NIM</label>
+        <input type="text" id="nim" class="w-full px-4 py-2 border rounded-md" required />
+      </div>
+      <div>
+        <label for="programStudi" class="block text-sm font-medium text-[#081C15]">Program Studi</label>
+        <input type="text" id="programStudi" class="w-full px-4 py-2 border rounded-md" required />
+      </div>
+      <div>
+        <label for="topic" class="block text-sm font-medium text-[#081C15]">Topik</label>
+        <select id="topic" class="w-full px-4 py-2 border rounded-md" required>
+          <option value="">Pilih Topik</option>
+          <option value="akademik">Akademik</option>
+          <option value="fasilitas">Fasilitas</option>
+          <option value="kebijakan">Kebijakan Fakultas</option>
+          <option value="administrasi">Administrasi</option>
+          <option value="saran">Saran</option>
+          <option value="staff">Staff</option>
+          <option value="other">Lainnya</option>
+        </select>
+      </div>
+      <div>
+        <label for="aspirationText" class="block text-sm font-medium text-[#081C15]">Aspirasi</label>
+        <textarea id="aspirationText" rows="4" class="w-full px-4 py-2 border rounded-md" required></textarea>
+      </div>
+      <div>
+        <label for="attachment" class="block text-sm font-medium text-[#081C15]">Lampiran Bukti (opsional)</label>
+        <input type="file" id="attachment" class="w-full px-4 py-2 border rounded-md" />
+      </div>
+      <button type="submit" class="bg-[#52B788] hover:bg-[#40916C] text-white font-bold py-3 px-6 rounded transition">
+        Kirim Aspirasi
+      </button>
+    </form>
+  </div>
+</section>
 
   <!-- Script untuk kirim ke localStorage & Google Sheets -->
   <script>
