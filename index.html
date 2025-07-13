@@ -61,68 +61,76 @@
       </div>
     </div>
 
-<!-- SAMARASI Form -->
+<!-- SAMARASI Form (Desain mirip BPMILKOM, logika SAMARASI) -->
 <section id="aspiration" class="py-20 bg-white">
   <div class="container mx-auto px-6">
-    <h2 class="text-3xl font-bold text-center text-[#1B4332] mb-16">
-      SAMARASI FKIP (Suara Mahasiswa & Serap Aspirasi FKIP)
-    </h2>
+    <div class="text-center mb-8">
+      <h2 class="text-3xl font-bold text-[#1B4332]">SAMARASI FKIP</h2>
+      <p class="text-[#081C15] font-medium mt-2">Serap Aspirasi Mahasiswa</p>
+      <i class="text-sm text-gray-600">Kamu bisa sampaikan keluh kesah mengenai perkuliahan di sini ya! Tenang aja, identitasmu akan kami jaga, jadi ngga perlu khawatir.</i>
+    </div>
+
     <form id="aspirationForm" class="space-y-6">
-      <div>
-        <label for="name" class="block text-sm font-medium text-[#081C15]">Nama Lengkap</label>
-        <input type="text" id="name" class="w-full px-4 py-2 border rounded-md" required />
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <input type="text" id="name" class="w-full px-4 py-2 border rounded-md" placeholder="Nama Lengkap" required />
+        </div>
+        <div>
+          <input type="text" id="nim" class="w-full px-4 py-2 border rounded-md" placeholder="NIM" required />
+        </div>
       </div>
-      <div>
-        <label for="nim" class="block text-sm font-medium text-[#081C15]">NIM</label>
-        <input type="text" id="nim" class="w-full px-4 py-2 border rounded-md" required />
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <select id="programStudi" class="w-full px-4 py-2 border rounded-md" required>
+            <option value="">Pilih Program Studi</option>
+            <option>Pendidikan Guru Sekolah Dasar</option>
+            <option>Pendidikan Luar Sekolah</option>
+            <option>Pendidikan Guru Pendidikan Anak Usia Dini</option>
+            <option>Pendidikan Sejarah</option>
+            <option>Pendidikan Geografi</option>
+            <option>Pendidikan Ekonomi</option>
+            <option>Pendidikan Bahasa Inggris</option>
+            <option>Pendidikan Bahasa dan Sastra Indonesia</option>
+            <option>Pendidikan Matematika</option>
+            <option>Pendidikan Ilmu Pengetahuan Alam</option>
+            <option>Pendidikan Fisika</option>
+            <option>Pendidikan Biologi</option>
+          </select>
+        </div>
+        <div>
+          <select id="topic" class="w-full px-4 py-2 border rounded-md" required>
+            <option value="">Topik Permasalahan</option>
+            <option>Akademik</option>
+            <option>Fasilitas</option>
+            <option>Kebijakan Fakultas</option>
+            <option>Administrasi</option>
+            <option>Saran</option>
+            <option>Staff</option>
+            <option>Lainnya</option>
+          </select>
+        </div>
       </div>
+
       <div>
-        <label for="programStudi" class="block text-sm font-medium text-[#081C15]">Program Studi</label>
-        <select id="programStudi" class="w-full px-4 py-2 border rounded-md" required>
-          <option value="">Pilih Program Studi</option>
-          <option value="Pendidikan Guru Sekolah Dasar">Pendidikan Guru Sekolah Dasar</option>
-          <option value="Pendidikan Luar Sekolah">Pendidikan Luar Sekolah</option>
-          <option value="Pendidikan Guru Pendidikan Anak Usia Dini">Pendidikan Guru Pendidikan Anak Usia Dini</option>
-          <option value="Pendidikan Sejarah">Pendidikan Sejarah</option>
-          <option value="Pendidikan Geografi">Pendidikan Geografi</option>
-          <option value="Pendidikan Ekonomi">Pendidikan Ekonomi</option>
-          <option value="Pendidikan Bahasa Inggris">Pendidikan Bahasa Inggris</option>
-          <option value="Pendidikan Bahasa dan Sastra Indonesia">Pendidikan Bahasa dan Sastra Indonesia</option>
-          <option value="Pendidikan Matematika">Pendidikan Matematika</option>
-          <option value="Pendidikan Ilmu Pengetahuan Alam">Pendidikan Ilmu Pengetahuan Alam</option>
-          <option value="Pendidikan Fisika">Pendidikan Fisika</option>
-          <option value="Pendidikan Biologi">Pendidikan Biologi</option>
-        </select>
+        <textarea id="aspirationText" rows="3" class="w-full px-4 py-2 border rounded-md" placeholder="Tulis aspirasi kamu di sini..." required></textarea>
       </div>
-      <div>
-        <label for="topic" class="block text-sm font-medium text-[#081C15]">Topik</label>
-        <select id="topic" class="w-full px-4 py-2 border rounded-md" required>
-          <option value="">Pilih Topik</option>
-          <option value="akademik">Akademik</option>
-          <option value="fasilitas">Fasilitas</option>
-          <option value="kebijakan">Kebijakan Fakultas</option>
-          <option value="administrasi">Administrasi</option>
-          <option value="saran">Saran</option>
-          <option value="staff">Staff</option>
-          <option value="other">Lainnya</option>
-        </select>
-      </div>
-      <div>
-        <label for="aspirationText" class="block text-sm font-medium text-[#081C15]">Aspirasi</label>
-        <textarea id="aspirationText" rows="4" class="w-full px-4 py-2 border rounded-md" required></textarea>
-      </div>
+
       <div>
         <label for="attachment" class="block text-sm font-medium text-[#081C15]">Lampiran Bukti (opsional)</label>
         <input type="file" id="attachment" class="w-full px-4 py-2 border rounded-md" />
       </div>
-      <button type="submit" class="bg-[#52B788] hover:bg-[#40916C] text-white font-bold py-3 px-6 rounded transition">
-        Kirim Aspirasi
-      </button>
+
+      <div class="text-center">
+        <button type="submit" class="bg-[#52B788] hover:bg-[#40916C] text-white font-bold py-3 px-6 rounded transition">
+          Kirim Aspirasi
+        </button>
+      </div>
     </form>
   </div>
 </section>
 
-<!-- Script simpan ke localStorage saja -->
+<!-- Script simpan ke localStorage -->
 <script>
   document.getElementById("aspirationForm").addEventListener("submit", function (e) {
     e.preventDefault();
@@ -132,7 +140,7 @@
     const programStudi = document.getElementById("programStudi").value.trim();
     const topic = document.getElementById("topic").value;
     const aspirationText = document.getElementById("aspirationText").value.trim();
-    const timestamp = new Date().toISOString();
+    const timestamp = new Date().toLocaleString("id-ID", { timeZone: "Asia/Jakarta" });
 
     const attachmentInput = document.getElementById("attachment");
     const attachment = attachmentInput.files.length > 0 ? attachmentInput.files[0].name : "";
@@ -147,13 +155,11 @@
       attachment
     };
 
-    // Simpan ke localStorage
     const existing = JSON.parse(localStorage.getItem("aspirations")) || [];
     existing.push(aspiration);
     localStorage.setItem("aspirations", JSON.stringify(existing));
 
     alert("✅ Aspirasi berhasil disimpan di perangkat ini.");
-
     this.reset();
   });
 </script>
