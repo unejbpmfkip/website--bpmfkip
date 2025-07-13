@@ -28,42 +28,68 @@ document.getElementById("aspirationForm").addEventListener("submit", async funct
   const nim = document.getElementById("nim").value;
   const topic = document.getElementById("topic").value;
   const aspiration = document.getElementById("aspirationText").value;
-  const timestamp = new Date().toLocaleString("id-ID");
+  const programStudi = document.getElementById("programStudi")?.value || "-";
+  const timestamp = new Date().toISOString();
+
   const attachmentInput = document.getElementById("attachment");
-  const attachment = attachmentInput.files[0] ? attachmentInput.files[0].name : "";
+  let imageBase64 = "";
 
-  const data = {
-    name,
-    nim,
-    topic,
-    aspiration,
-    attachment,
-    timestamp,
-  };
+  if (attachmentInput.files.length > 0) {
+    const reader = new FileReader();
+    reader.onloadend = async function () {
+      imageBase64 = reader.result;
 
+      const data = {
+        name,
+        nim,
+        topic,
+        aspiration,
+        programStudi,
+        timestamp,
+        image: imageBase64,
+      };
+
+      await saveAspirasi(data);
+    };
+    reader.readAsDataURL(attachmentInput.files[0]);
+  } else {
+    const data = {
+      name,
+      nim,
+      topic,
+      aspiration,
+      programStudi,
+      timestamp,
+      image: "",
+    };
+
+    await saveAspirasi(data);
+  }
+
+  // Reset form
+  document.getElementById("aspirationForm").reset();
+  alert("Aspirasi berhasil dikirim!");
+});
+
+// Simpan aspirasi ke localStorage + kirim ke Google Sheets
+async function saveAspirasi(data) {
   // Simpan ke localStorage
   const aspirations = JSON.parse(localStorage.getItem("aspirations") || "[]");
   aspirations.push(data);
   localStorage.setItem("aspirations", JSON.stringify(aspirations));
 
-  // Kirim ke Google Sheets (dengan JSON format)
-  function doPost(e) {
+  // Kirim ke Google Sheets
   try {
-    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("BPM SAMARASI 2025");
-    var data = JSON.parse(e.postData.contents);
+    const response = await fetch("https://script.google.com/macros/s/AKfycbwp882kvy_w7pGyLLFoNHiS5fe4ItQ4jIFX746l-Qh7-e7kEKss1qdgoSfmenGxMGLB3w/exec", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
 
-    sheet.appendRow([
-      new Date(),
-      data.name || "",
-      data.nim || "",
-      data.topic || "",
-      data.aspiration || "",
-      data.attachment || "",
-      data.timestamp || ""
-    ]);
-
-    return ContentService.createTextOutput("Success").setMimeType(ContentService.MimeType.TEXT);
+    const result = await response.text();
+    if (!result.includes("Success")) {
+      console.warn("Gagal kirim ke Google Sheets:", result);
+    }
   } catch (error) {
-    return ContentService.createTextOutput("Error: " + error.message).setMimeType(ContentService.MimeType.TEXT);
+    console.error("Gagal kirim aspirasi ke Google Sheets:", error.message);
   }
 }

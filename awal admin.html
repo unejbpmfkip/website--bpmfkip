@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard Admin - BPM FKIP UNEJ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="bg-white">
+    <!-- ===== Dashboard Admin Section ===== -->
+    <section id="adminPage" class="py-20 px-6 bg-white min-h-screen">
+      <div class="max-w-5xl mx-auto">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-3xl font-bold text-gray-800">Dashboard Admin</h2>
+          <button
+            onclick="logout()"
+            class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+          >
+            Logout
+          </button>
+        </div>
+
+        <!-- Filter -->
+        <div class="flex flex-wrap gap-4 items-center mb-6">
+          <input
+            type="month"
+            id="filterMonth"
+            class="border px-3 py-2 rounded"
+          />
+          <button
+            onclick="filterAspirations()"
+            class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          >
+            Filter
+          </button>
+          <button onclick="resetFilter()" class="text-blue-600 hover:underline">
+            Reset
+          </button>
+          <button
+            onclick="exportToExcel()"
+            class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+          >
+            Ekspor ke Excel
+          </button>
+        </div>
+
+        <!-- Daftar Aspirasi -->
+        <div id="aspirationList" class="space-y-4"></div>
+      </div>
+    </section>
+
+    <!-- ===== Script Dashboard ===== -->
+    <script>
+      function logout() {
+        window.location.href = "index.html"; // redirect ke halaman publik
+      }
+
+      function loadAspirations(filter = null) {
+        const container = document.getElementById("aspirationList");
+        container.innerHTML = "";
+        const data = JSON.parse(localStorage.getItem("aspirations") || "[]");
+        const filtered = filter
+          ? data.filter(item =>
+              new Date(item.timestamp).toISOString().slice(0, 7) === filter
+            )
+          : data;
+
+        if (filtered.length === 0) {
+          container.innerHTML = '<p class="text-gray-600">Belum ada aspirasi.</p>';
+          return;
+        }
+
+        filtered.reverse().forEach((item, index) => {
+          const date = new Date(item.timestamp);
+          const formattedTime = date.toLocaleString("id-ID", {
+            dateStyle: "medium",
+            timeStyle: "short",
+          });
+
+          const card = document.createElement("div");
+          card.className = "p-4 border rounded-lg shadow bg-gray-50";
+          card.innerHTML = `
+            <div class="flex justify-between items-center mb-2">
+              <p class="text-sm text-gray-600">${formattedTime}</p>
+              <button onclick="deleteAspiration(${index})" class="text-red-600 hover:underline text-sm">Hapus</button>
+            </div>
+            <p><strong>Nama:</strong> ${item.name}</p>
+            <p><strong>NIM:</strong> ${item.nim}</p>
+            <p><strong>Program Studi:</strong> ${item.programStudi || '-'}</p>
+            <p><strong>Topik:</strong> ${item.topic}</p>
+            <p class="mt-2"><strong>Aspirasi:</strong><br>${item.aspiration}</p>
+            ${
+              item.image
+                ? `<div class="mt-4"><strong>Lampiran:</strong><br><img src="${item.image}" class="mt-2 max-w-xs rounded border" /></div>`
+                : ""
+            }
+          `;
+          container.appendChild(card);
+        });
+      }
+
+      function deleteAspiration(index) {
+        if (!confirm("Yakin ingin menghapus aspirasi ini?")) return;
+        const data = JSON.parse(localStorage.getItem("aspirations") || "[]");
+        data.splice(index, 1);
+        localStorage.setItem("aspirations", JSON.stringify(data));
+        loadAspirations();
+      }
+
+      function filterAspirations() {
+        const month = document.getElementById("filterMonth").value;
+        if (month) loadAspirations(month);
+      }
+
+      function resetFilter() {
+        document.getElementById("filterMonth").value = "";
+        loadAspirations();
+      }
+
+      function exportToExcel() {
+        const data = JSON.parse(localStorage.getItem("aspirations") || "[]");
+
+        if (data.length === 0) {
+          alert("Tidak ada data untuk diekspor.");
+          return;
+        }
+
+        const header = ["Waktu", "Nama", "NIM", "Program Studi", "Topik", "Aspirasi", "Lampiran"];
+        const rows = data.map(item => [
+          new Date(item.timestamp).toLocaleString("id-ID", { timeZone: "Asia/Jakarta" }),
+          item.name,
+          item.nim,
+          item.programStudi || "-",
+          item.topic,
+          `"${item.aspiration.replace(/"/g, '""')}"`,
+          item.image ? "Ada" : "Tidak Ada"
+        ]);
+
+        const csvContent = [header, ...rows]
+          .map(row => row.join(","))
+          .join("\n");
+
+        const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "aspirasi-fkip.csv";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+
+      // Load semua aspirasi saat halaman dibuka
+      window.onload = loadAspirations;
+    </script>
+  </body>
+</html>
