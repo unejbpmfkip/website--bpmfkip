@@ -61,7 +61,7 @@
       </div>
     </div>
 
-    <!-- SAMARASI Form -->
+   <!-- SAMARASI Form -->
 <section id="aspiration" class="py-20 bg-white">
   <div class="container mx-auto px-6">
     <h2 class="text-3xl font-bold text-center text-[#1B4332] mb-16">
@@ -127,7 +127,6 @@
   document.getElementById("aspirationForm").addEventListener("submit", function (e) {
     e.preventDefault();
 
-    // Ambil data dari input form
     const name = document.getElementById("name").value.trim();
     const nim = document.getElementById("nim").value.trim();
     const programStudi = document.getElementById("programStudi").value.trim();
@@ -138,7 +137,6 @@
     const attachmentInput = document.getElementById("attachment");
     const attachment = attachmentInput.files.length > 0 ? attachmentInput.files[0].name : "";
 
-    // Siapkan data aspirasi
     const aspiration = {
       timestamp,
       name,
@@ -154,7 +152,7 @@
     existing.push(aspiration);
     localStorage.setItem("aspirations", JSON.stringify(existing));
 
-    // Kirim ke Google Apps Script
+    // Kirim ke Google Sheets
     fetch("https://script.google.com/macros/s/AKfycbwp882kvy_w7pGyLLFoNHiS5fe4ItQ4jIFX746l-Qh7-e7kEKss1qdgoSfmenGxMGLB3w/exec", {
       method: "POST",
       body: JSON.stringify(aspiration),
@@ -170,7 +168,7 @@
       if (result === "Success") {
         alert("✅ Aspirasi berhasil dikirim!");
       } else {
-        alert("⚠️ Gagal dikirim.");
+        alert("⚠️ Gagal dikirim ke Google Sheet.");
       }
     })
     .catch(error => {
