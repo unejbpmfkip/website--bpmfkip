@@ -1,0 +1,168 @@
+// URL Google Apps Script
+const scriptURL = "https://script.google.com/macros/s/AKfycbwp882kvy_w7pGyLLFoNHiS5fe4ItQ4jIFX746l-Qh7-e7kEKss1qdgoSfmenGxMGLB3w/exec";
+
+// ========== FORM ASPIRASI ==========
+document.getElementById("aspirationForm")?.addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const timestamp = new Date().toISOString();
+  const name = document.getElementById("name").value;
+  const nim = document.getElementById("nim").value;
+  const programStudi = document.getElementById("programStudi").value;
+  const topic = document.getElementById("topic").value;
+  const aspiration = document.getElementById("aspirationText").value;
+  const file = document.getElementById("attachment").files[0];
+
+  const saveAndSend = (imageBase64 = null) => {
+    const data = {
+      timestamp,
+      name,
+      nim,
+      programStudi,
+      topic,
+      aspiration,
+      image: imageBase64
+    };
+
+    // Simpan ke localStorage
+    let existing = JSON.parse(localStorage.getItem("aspirations") || "[]");
+    existing.push(data);
+    localStorage.setItem("aspirations", JSON.stringify(existing));
+
+    // Kirim ke Google Sheets
+    fetch(scriptURL, {
+      method: "POST",
+      body: new URLSearchParams({
+        timestamp,
+        name,
+        nim,
+        programStudi,
+        topic,
+        aspiration
+      })
+    })
+      .then(() => alert("Aspirasi berhasil dikirim!"))
+      .catch((error) => {
+        console.error("Gagal mengirim aspirasi:", error);
+        alert("Aspirasi disimpan lokal, tapi gagal dikirim ke server.");
+      });
+
+    document.getElementById("aspirationForm").reset();
+  };
+
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e) => saveAndSend(e.target.result);
+    reader.readAsDataURL(file);
+  } else {
+    saveAndSend();
+  }
+});
+
+// ========== MODAL LOGIN ==========
+function openLoginModal() {
+  document.getElementById("loginModal").classList.remove("hidden");
+}
+
+function closeLoginModal() {
+  document.getElementById("loginModal").classList.add("hidden");
+  document.getElementById("loginMessage").classList.add("hidden");
+}
+
+// ========== LOGIN ADMIN ==========
+document.getElementById("loginForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const username = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value.trim();
+
+  if (username === "traveda25bpm" && password === "fkip2025") {
+    localStorage.setItem("adminLoggedIn", "true");
+    closeLoginModal();
+    showAdminDashboard();
+  } else {
+    document.getElementById("loginMessage").classList.remove("hidden");
+  }
+});
+
+// ========== CEK LOGIN SAAT LOAD ==========
+window.onload = function () {
+  if (localStorage.getItem("adminLoggedIn") === "true") {
+    showAdminDashboard();
+  }
+};
+
+// ========== LOGOUT ==========
+function logoutAdmin() {
+  localStorage.removeItem("adminLoggedIn");
+  location.reload();
+}
+
+// ========== DASHBOARD ADMIN ==========
+function showAdminDashboard() {
+  document.getElementById("adminPage").classList.remove("hidden");
+  document.querySelector("nav").classList.add("hidden");
+  document.querySelectorAll("section:not(#adminPage)").forEach((s) => s.classList.add("hidden"));
+  loadAspirations();
+}
+
+function loadAspirations(filter = null) {
+  const container = document.getElementById("aspirationList");
+  container.innerHTML = "";
+  const data = JSON.parse(localStorage.getItem("aspirations") || "[]");
+
+  const filtered = filter
+    ? data.filter((item) => new Date(item.timestamp).toISOString().slice(0, 7) === filter)
+    : data;
+
+  if (filtered.length === 0) {
+    container.innerHTML = '<p class="text-gray-600">Belum ada aspirasi.</p>';
+    return;
+  }
+
+  filtered.reverse().forEach((item, index) => {
+    const date = new Date(item.timestamp);
+    const formattedTime = date.toLocaleString("id-ID", {
+      dateStyle: "medium",
+      timeStyle: "short",
+    });
+
+    const card = document.createElement("div");
+    card.className = "p-4 border rounded-lg shadow bg-gray-50";
+    card.innerHTML = `
+      <div class="flex justify-between items-center mb-2">
+        <p class="text-sm text-gray-600">${formattedTime}</p>
+        <button onclick="deleteAspiration(${index})" class="text-red-600 hover:underline text-sm">Hapus</button>
+      </div>
+      <p><strong>Nama:</strong> ${item.name}</p>
+      <p><strong>NIM:</strong> ${item.nim}</p>
+      <p><strong>Program Studi:</strong> ${item.programStudi || "-"}</p>
+      <p><strong>Topik:</strong> ${item.topic}</p>
+      <p class="mt-2"><strong>Aspirasi:</strong><br>${item.aspiration}</p>
+      ${
+        item.image
+          ? `<div class="mt-4"><strong>Lampiran:</strong><br><img src="${item.image}" class="mt-2 max-w-xs rounded border" /></div>`
+          : ""
+      }
+    `;
+    container.appendChild(card);
+  });
+}
+
+function deleteAspiration(index) {
+  if (!confirm("Yakin ingin menghapus aspirasi ini?")) return;
+  const data = JSON.parse(localStorage.getItem("aspirations") || "[]");
+  data.splice(index, 1);
+  localStorage.setItem("aspirations", JSON.stringify(data));
+  loadAspirations();
+}
+
+function filterAspirations() {
+  const month = document.getElementById("filterMonth").value;
+  if (month) loadAspirations(month);
+}
+
+function resetFilter() {
+  document.getElementById("filterMonth").value = "";
+  loadAspirations();
+}

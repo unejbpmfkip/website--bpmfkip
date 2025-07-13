@@ -37,8 +37,6 @@
           <button onclick="resetFilter()" class="text-blue-600 hover:underline">
             Reset
           </button>
-
-          <!-- Tombol Ekspor ke Excel -->
           <button
             onclick="exportToExcel()"
             class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
@@ -52,11 +50,74 @@
       </div>
     </section>
 
-    <!-- Skrip utama -->
-    <script src="script.js"></script>
-
-    <!-- Fungsi ekspor CSV -->
+    <!-- ===== Script Dashboard ===== -->
     <script>
+      function logout() {
+        window.location.href = "index.html"; // redirect ke halaman publik
+      }
+
+      function loadAspirations(filter = null) {
+        const container = document.getElementById("aspirationList");
+        container.innerHTML = "";
+        const data = JSON.parse(localStorage.getItem("aspirations") || "[]");
+        const filtered = filter
+          ? data.filter(item =>
+              new Date(item.timestamp).toISOString().slice(0, 7) === filter
+            )
+          : data;
+
+        if (filtered.length === 0) {
+          container.innerHTML = '<p class="text-gray-600">Belum ada aspirasi.</p>';
+          return;
+        }
+
+        filtered.reverse().forEach((item, index) => {
+          const date = new Date(item.timestamp);
+          const formattedTime = date.toLocaleString("id-ID", {
+            dateStyle: "medium",
+            timeStyle: "short",
+          });
+
+          const card = document.createElement("div");
+          card.className = "p-4 border rounded-lg shadow bg-gray-50";
+          card.innerHTML = `
+            <div class="flex justify-between items-center mb-2">
+              <p class="text-sm text-gray-600">${formattedTime}</p>
+              <button onclick="deleteAspiration(${index})" class="text-red-600 hover:underline text-sm">Hapus</button>
+            </div>
+            <p><strong>Nama:</strong> ${item.name}</p>
+            <p><strong>NIM:</strong> ${item.nim}</p>
+            <p><strong>Program Studi:</strong> ${item.programStudi || '-'}</p>
+            <p><strong>Topik:</strong> ${item.topic}</p>
+            <p class="mt-2"><strong>Aspirasi:</strong><br>${item.aspiration}</p>
+            ${
+              item.image
+                ? `<div class="mt-4"><strong>Lampiran:</strong><br><img src="${item.image}" class="mt-2 max-w-xs rounded border" /></div>`
+                : ""
+            }
+          `;
+          container.appendChild(card);
+        });
+      }
+
+      function deleteAspiration(index) {
+        if (!confirm("Yakin ingin menghapus aspirasi ini?")) return;
+        const data = JSON.parse(localStorage.getItem("aspirations") || "[]");
+        data.splice(index, 1);
+        localStorage.setItem("aspirations", JSON.stringify(data));
+        loadAspirations();
+      }
+
+      function filterAspirations() {
+        const month = document.getElementById("filterMonth").value;
+        if (month) loadAspirations(month);
+      }
+
+      function resetFilter() {
+        document.getElementById("filterMonth").value = "";
+        loadAspirations();
+      }
+
       function exportToExcel() {
         const data = JSON.parse(localStorage.getItem("aspirations") || "[]");
 
@@ -65,11 +126,12 @@
           return;
         }
 
-        const header = ["Waktu", "Nama", "NIM", "Topik", "Aspirasi", "Lampiran"];
+        const header = ["Waktu", "Nama", "NIM", "Program Studi", "Topik", "Aspirasi", "Lampiran"];
         const rows = data.map(item => [
           new Date(item.timestamp).toLocaleString("id-ID", { timeZone: "Asia/Jakarta" }),
           item.name,
           item.nim,
+          item.programStudi || "-",
           item.topic,
           `"${item.aspiration.replace(/"/g, '""')}"`,
           item.image ? "Ada" : "Tidak Ada"
@@ -87,6 +149,9 @@
         link.click();
         document.body.removeChild(link);
       }
+
+      // Load semua aspirasi saat halaman dibuka
+      window.onload = loadAspirations;
     </script>
   </body>
 </html>

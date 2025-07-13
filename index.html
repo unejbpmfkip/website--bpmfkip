@@ -45,167 +45,59 @@
       </div>
     </section>
 
-<!-- ===== Modal Login ===== -->
-<div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
-  <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-    <h2 class="text-xl font-semibold mb-4">Login Admin</h2>
-    <form id="loginForm" class="space-y-4">
-      <input type="text" id="username" placeholder="Username" required class="w-full border rounded px-4 py-2" />
-      <input type="password" id="password" placeholder="Password" required class="w-full border rounded px-4 py-2" />
-      <p id="loginMessage" class="text-red-600 text-sm hidden">Username atau password salah!</p>
-      <div class="flex justify-between mt-4">
-        <button type="button" onclick="closeLoginModal()" class="text-gray-600 hover:underline">Batal</button>
-        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Masuk</button>
+    <!-- ===== Modal Login ===== -->
+    <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+      <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+        <h2 class="text-xl font-semibold mb-4">Login Admin</h2>
+        <form id="loginForm" class="space-y-4">
+          <input type="text" id="username" placeholder="Username" required class="w-full border rounded px-4 py-2" />
+          <input type="password" id="password" placeholder="Password" required class="w-full border rounded px-4 py-2" />
+          <p id="loginMessage" class="text-red-600 text-sm hidden">Username atau password salah!</p>
+          <div class="flex justify-between mt-4">
+            <button type="button" onclick="closeLoginModal()" class="text-gray-600 hover:underline">Batal</button>
+            <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Masuk</button>
+          </div>
+        </form>
       </div>
-    </form>
-  </div>
-</div>
-
-<!-- ===== Form Aspirasi (SAMARASI) ===== -->
-<section id="aspiration" class="py-20 bg-white">
+    </div
+  </section>
+  
+  <!-- ===== Form Aspirasi (SAMARASI) ===== -->
+<section id="aspiration" class="py-20 bg-white text-[#1B4332]">
   <div class="container mx-auto px-6">
-    <h2 class="text-3xl font-bold text-center text-[#1B4332] mb-16">
-      SAMARASI FKIP (Suara Mahasiswa & Serap Aspirasi FKIP)
-    </h2>
-    <form id="aspirationForm" class="space-y-6">
+    <h2 class="text-3xl font-bold text-center mb-8">SAMARASI FKIP (Suara Mahasiswa & Serap Aspirasi FKIP)</h2>
+    <form id="aspirationForm" class="space-y-6 bg-green-50 p-6 rounded-lg shadow-md">
       <div>
-        <label for="name" class="block text-sm font-medium text-[#081C15]">Nama Lengkap</label>
-        <input type="text" id="name" class="w-full px-4 py-2 border rounded-md" required />
+        <label for="nama" class="block font-medium">Nama:</label>
+        <input type="text" id="nama" required class="w-full border px-4 py-2 rounded" />
       </div>
       <div>
-        <label for="nim" class="block text-sm font-medium text-[#081C15]">NIM</label>
-        <input type="text" id="nim" class="w-full px-4 py-2 border rounded-md" required />
+        <label for="nim" class="block font-medium">NIM:</label>
+        <input type="text" id="nim" required class="w-full border px-4 py-2 rounded" />
       </div>
       <div>
-        <label for="programStudi" class="block text-sm font-medium text-[#081C15]">Program Studi</label>
-        <select id="programStudi" class="w-full px-4 py-2 border rounded-md" required>
-          <option value="">Pilih Program Studi</option>
-          <option value="Pendidikan Guru Sekolah Dasar">Pendidikan Guru Sekolah Dasar</option>
-          <option value="Pendidikan Luar Sekolah">Pendidikan Luar Sekolah</option>
-          <option value="Pendidikan Guru Pendidikan Anak Usia Dini">Pendidikan Guru Pendidikan Anak Usia Dini</option>
-          <option value="Pendidikan Sejarah">Pendidikan Sejarah</option>
-          <option value="Pendidikan Geografi">Pendidikan Geografi</option>
-          <option value="Pendidikan Ekonomi">Pendidikan Ekonomi</option>
-          <option value="Pendidikan Bahasa Inggris">Pendidikan Bahasa Inggris</option>
-          <option value="Pendidikan Bahasa dan Sastra Indonesia">Pendidikan Bahasa dan Sastra Indonesia</option>
-          <option value="Pendidikan Matematika">Pendidikan Matematika</option>
-          <option value="Pendidikan Ilmu Pengetahuan Alam">Pendidikan Ilmu Pengetahuan Alam</option>
-          <option value="Pendidikan Fisika">Pendidikan Fisika</option>
-          <option value="Pendidikan Biologi">Pendidikan Biologi</option>
-        </select>
+        <label for="topik" class="block font-medium">Topik:</label>
+        <input type="text" id="topik" required class="w-full border px-4 py-2 rounded" />
       </div>
       <div>
-        <label for="topic" class="block text-sm font-medium text-[#081C15]">Topik</label>
-        <select id="topic" class="w-full px-4 py-2 border rounded-md" required>
-          <option value="">Pilih Topik</option>
-          <option value="akademik">Akademik</option>
-          <option value="fasilitas">Fasilitas</option>
-          <option value="kebijakan">Kebijakan Fakultas</option>
-          <option value="administrasi">Administrasi</option>
-          <option value="saran">Saran</option>
-          <option value="staff">Staff</option>
-          <option value="other">Lainnya</option>
-        </select>
+        <label for="aspirasi" class="block font-medium">Aspirasi:</label>
+        <textarea id="aspirasi" required class="w-full border px-4 py-2 rounded"></textarea>
       </div>
       <div>
-        <label for="aspirationText" class="block text-sm font-medium text-[#081C15]">Aspirasi</label>
-        <textarea id="aspirationText" rows="4" class="w-full px-4 py-2 border rounded-md" required></textarea>
+        <label for="lampiran" class="block font-medium">Lampiran (Opsional):</label>
+        <input type="file" id="lampiran" accept="image/*,.pdf" class="w-full border px-4 py-2 rounded" />
       </div>
-      <div>
-        <label for="attachment" class="block text-sm font-medium text-[#081C15]">Lampiran Bukti (opsional)</label>
-        <input type="file" id="attachment" class="w-full px-4 py-2 border rounded-md" />
+      <div class="text-center">
+        <button type="submit" class="bg-[#1B4332] text-white px-6 py-2 rounded hover:bg-[#2D6A4F]">
+          Kirim Aspirasi
+        </button>
       </div>
-      <button type="submit" class="bg-[#52B788] hover:bg-[#40916C] text-white font-bold py-3 px-6 rounded transition">
-        Kirim Aspirasi
-      </button>
+      <p id="formMessage" class="text-center text-sm mt-4"></p>
     </form>
   </div>
 </section>
 
-<script>
-  // URL Google Apps Script (SAMARASI BPM)
-  const scriptURL = "https://script.google.com/macros/s/AKfycbwp882kvy_w7pGyLLFoNHiS5fe4ItQ4jIFX746l-Qh7-e7kEKss1qdgoSfmenGxMGLB3w/exec";
-
-  // Kirim aspirasi ke Google Sheet dan localStorage
-  document.getElementById("aspirationForm").addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    const timestamp = new Date().toISOString();
-    const name = document.getElementById("name").value;
-    const nim = document.getElementById("nim").value;
-    const programStudi = document.getElementById("programStudi").value;
-    const topic = document.getElementById("topic").value;
-    const aspiration = document.getElementById("aspirationText").value;
-
-    const data = {
-      timestamp,
-      name,
-      nim,
-      programStudi,
-      topic,
-      aspiration
-    };
-
-    // Simpan ke localStorage
-    let existingData = JSON.parse(localStorage.getItem("aspirations")) || [];
-    existingData.push(data);
-    localStorage.setItem("aspirations", JSON.stringify(existingData));
-
-    // Kirim ke Google Sheets
-    fetch(scriptURL, {
-      method: "POST",
-      body: new URLSearchParams(data)
-    })
-      .then(response => {
-        alert("Aspirasi berhasil dikirim!");
-        document.getElementById("aspirationForm").reset();
-      })
-      .catch(error => {
-        console.error("Gagal mengirim aspirasi:", error);
-        alert("Aspirasi disimpan secara lokal, tetapi gagal dikirim ke server.");
-      });
-  });
-
-  // Login Admin
-  document.getElementById("loginForm").addEventListener("submit", function (e) {
-    e.preventDefault();
-    const username = document.getElementById("username").value.trim();
-    const password = document.getElementById("password").value.trim();
-
-    if (username === "traveda25bpm" && password === "fkip2025") {
-      localStorage.setItem("adminLoggedIn", "true");
-      closeLoginModal();
-      showAdminDashboard();
-    } else {
-      document.getElementById("loginMessage").classList.remove("hidden");
-    }
-  });
-
-  // Modal Login
-  function openLoginModal() {
-    document.getElementById("loginModal").classList.remove("hidden");
-  }
-
-  function closeLoginModal() {
-    document.getElementById("loginModal").classList.add("hidden");
-    document.getElementById("loginMessage").classList.add("hidden");
-  }
-
-  // Logout
-  function logoutAdmin() {
-    localStorage.removeItem("adminLoggedIn");
-    location.reload();
-  }
-
-  // Saat halaman dibuka, cek login
-  window.onload = function () {
-    if (localStorage.getItem("adminLoggedIn") === "true") {
-      showAdminDashboard();
-    }
-  };
-</script>
-
-    <!-- ===== Visi dan Misi Section ===== -->
+<!-- ===== Visi dan Misi Section ===== -->
     <section id=vision-mission class="py-20" style="background-color:#D8F3DC">
       <div
         class="container mx-auto px-6 flex flex-col md:flex-row items-center gap-10"
