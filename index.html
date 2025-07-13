@@ -61,7 +61,7 @@
       </div>
     </div>
 
- <!-- SAMARASI Form -->
+    <!-- SAMARASI Form -->
 <section id="aspiration" class="py-20 bg-white">
   <div class="container mx-auto px-6">
     <h2 class="text-3xl font-bold text-center text-[#1B4332] mb-16">
@@ -78,7 +78,21 @@
       </div>
       <div>
         <label for="programStudi" class="block text-sm font-medium text-[#081C15]">Program Studi</label>
-        <input type="text" id="programStudi" class="w-full px-4 py-2 border rounded-md" required />
+        <select id="programStudi" class="w-full px-4 py-2 border rounded-md" required>
+          <option value="">Pilih Program Studi</option>
+          <option value="Pendidikan Guru Sekolah Dasar">Pendidikan Guru Sekolah Dasar</option>
+          <option value="Pendidikan Luar Sekolah">Pendidikan Luar Sekolah</option>
+          <option value="Pendidikan Guru Pendidikan Anak Usia Dini">Pendidikan Guru Pendidikan Anak Usia Dini</option>
+          <option value="Pendidikan Sejarah">Pendidikan Sejarah</option>
+          <option value="Pendidikan Geografi">Pendidikan Geografi</option>
+          <option value="Pendidikan Ekonomi">Pendidikan Ekonomi</option>
+          <option value="Pendidikan Bahasa Inggris">Pendidikan Bahasa Inggris</option>
+          <option value="Pendidikan Bahasa dan Sastra Indonesia">Pendidikan Bahasa dan Sastra Indonesia</option>
+          <option value="Pendidikan Matematika">Pendidikan Matematika</option>
+          <option value="Pendidikan Ilmu Pengetahuan Alam">Pendidikan Ilmu Pengetahuan Alam</option>
+          <option value="Pendidikan Fisika">Pendidikan Fisika</option>
+          <option value="Pendidikan Biologi">Pendidikan Biologi</option>
+        </select>
       </div>
       <div>
         <label for="topic" class="block text-sm font-medium text-[#081C15]">Topik</label>
@@ -108,59 +122,66 @@
   </div>
 </section>
 
-  <!-- Script untuk kirim ke localStorage & Google Sheets -->
-  <script>
-    document.getElementById("aspirationForm").addEventListener("submit", function (e) {
-      e.preventDefault();
+<!-- Script untuk kirim ke localStorage & Apps Script -->
+<script>
+  document.getElementById("aspirationForm").addEventListener("submit", function (e) {
+    e.preventDefault();
 
-      const name = document.getElementById("name").value.trim();
-      const nim = document.getElementById("nim").value.trim();
-      const topic = document.getElementById("topic").value;
-      const aspirationText = document.getElementById("aspirationText").value.trim();
-      const timestamp = new Date().toISOString();
+    // Ambil data dari input form
+    const name = document.getElementById("name").value.trim();
+    const nim = document.getElementById("nim").value.trim();
+    const programStudi = document.getElementById("programStudi").value.trim();
+    const topic = document.getElementById("topic").value;
+    const aspirationText = document.getElementById("aspirationText").value.trim();
+    const timestamp = new Date().toLocaleString("id-ID", { timeZone: "Asia/Jakarta" });
 
-      const attachmentInput = document.getElementById("attachment");
-      const attachment = attachmentInput.files.length > 0 ? attachmentInput.files[0].name : "";
+    const attachmentInput = document.getElementById("attachment");
+    const attachment = attachmentInput.files.length > 0 ? attachmentInput.files[0].name : "";
 
-      const aspiration = {
-        name,
-        nim,
-        topic,
-        aspiration: aspirationText,
-        attachment,
-        timestamp
-      };
+    // Siapkan data aspirasi
+    const aspiration = {
+      timestamp,
+      name,
+      nim,
+      programStudi,
+      topic,
+      aspiration: aspirationText,
+      attachment
+    };
 
-      const existing = JSON.parse(localStorage.getItem("aspirations")) || [];
-      existing.push(aspiration);
-      localStorage.setItem("aspirations", JSON.stringify(existing));
+    // Simpan ke localStorage
+    const existing = JSON.parse(localStorage.getItem("aspirations")) || [];
+    existing.push(aspiration);
+    localStorage.setItem("aspirations", JSON.stringify(existing));
 
-      fetch("https://script.google.com/macros/s/AKfycbzla9ovv_IfTQeyYjDgwp-cq5Jn9j3DzabG7AnOCZp_VJX-uHzpmRV5cRiI4c_0HmrD/exec", {
-        method: "POST",
-        body: JSON.stringify(aspiration),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then(response => {
-        if (!response.ok) throw new Error("Jaringan gagal");
-        return response.text();
-      })
-      .then(result => {
-        if (result === "Success") {
-          alert("Aspirasi berhasil dikirim!");
-        } else {
-          alert("Gagal mengirim aspirasi ke Google Sheets:\n" + result);
-        }
-      })
-      .catch(error => {
-        console.error("Gagal kirim ke Apps Script:", error);
-        alert("Aspirasi disimpan lokal, tapi gagal dikirim online.");
-      });
-
-      this.reset();
+    // Kirim ke Apps Script
+    fetch("https://script.google.com/macros/s/AKfycbxYOYgnZnPqOrWAk9b93R95SiCCcWugtV97_qf2G_4xqaUuAV1KEfwyAlCx9Cf-Mhe8jw/exec", {
+      method: "POST",
+      body: JSON.stringify(aspiration),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    .then(response => {
+      if (!response.ok) throw new Error("Jaringan gagal");
+      return response.text();
+    })
+    .then(result => {
+      if (result === "Success") {
+        alert("✅ Aspirasi berhasil dikirim!");
+      } else {
+        alert("⚠️ Gagal dikirim:\n" + result);
+      }
+    })
+    .catch(error => {
+      console.error("Gagal kirim ke Apps Script:", error);
+      alert("⚠️ Aspirasi disimpan di perangkat, tapi gagal dikirim online.");
     });
-  </script>
+
+    this.reset();
+  });
+</script>
+
 
     <!-- ===== Visi dan Misi Section ===== -->
     <section id=vision-mission class="py-20" style="background-color:#D8F3DC">
