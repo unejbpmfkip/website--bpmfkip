@@ -80,7 +80,7 @@ async function saveAspirasi(data) {
 
   // Kirim ke Google Sheets
   try {
-    const response = await fetch("https://script.google.com/macros/s/AKfycbwp882kvy_w7pGyLLFoNHiS5fe4ItQ4jIFX746l-Qh7-e7kEKss1qdgoSfmenGxMGLB3w/exec", {
+    const response = await fetch("https://script.google.com/macros/s/AKfycbxTYIYocBhFat9RYphCaOLcdwboIdKwua7szNTyejc7EkXbJsuaLb1pVZb3UjFqQmZc/exec", {
       method: "POST",
       body: JSON.stringify(data),
     });
